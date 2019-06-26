@@ -183,6 +183,7 @@ func (pane *Pane) drawFolders() {
 }
 
 func (pane *Pane) cd(path string) {
+	pane.renderFont = true
 	err := os.Chdir(path)
 	if err != nil {
 		launchError(err.Error())
@@ -250,7 +251,6 @@ func main() {
 						break
 					}
 					if file.info.IsDir() {
-						pane.renderFont = true
 						pane.cd(file.info.Name())
 					} else {
 						cmd := exec.Command(cwd + "/" + file.info.Name())
@@ -265,7 +265,6 @@ func main() {
 				switch t.Keysym.Sym {
 				case sdl.K_BACKSPACE:
 					if t.State == 1 {
-						pane.renderFont = true
 						pane.cd("..")
 					}
 				}
